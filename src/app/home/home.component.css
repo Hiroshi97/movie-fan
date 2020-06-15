@@ -1,0 +1,55 @@
+/*
+*
+* SLIDE SHOW
+*
+*/
+
+.slideshow {
+  margin: 0;
+  width: 100%;
+  height: 100vh;
+  text-align: center;
+  color: white;
+}
+
+.carousel-inner {
+  margin: auto;
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6));
+}
+
+
+.carousel-item {
+  width: 100%;
+}
+
+img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+img:hover {
+  filter: brightness(60%);
+  transition: 0.5s ease;
+}
+
+.col {
+  float: left;
+  width: 100%;
+}
+
+.movie-description {
+  padding-top: 50%;
+  padding-bottom: 50%;
+}
+
+
+/*
+*
+* NEW MOVIES
+*
+*/
+
+.new-movies {
+  background: white;
+}

@@ -1,0 +1,46 @@
+<h1>List of movies</h1>
+<div class="row mt-5">
+  <div class="col-lg-3 col-md-4 col-sm-6 col-12" *ngFor="let movie of movies">
+    <a routerLink="../movie/{{ movie.id }}">
+      <figure class="figure text-center">
+        <img [src]="this.imgURL + movie.poster" class="poster" />
+        <figcaption class="figure-caption">{{ movie.name }}</figcaption>
+        <figcaption class="figure-caption">
+          {{ getYear(movie.date) }}
+        </figcaption>
+      </figure>
+    </a>
+  </div>
+</div>
+<nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-center">
+    <li class="page-item">
+      <button class="page-link" [disabled]="+page < 2" (click)="onPrevious()">
+        Previous
+      </button>
+    </li>
+    <li class="page-item active">
+      <button class="page-link">
+        {{ +page }}
+      </button>
+    </li>
+    <li class="page-item">
+      <button class="page-link" (click)="onPage(+page + 1)">
+        {{ +page + 1 }}
+      </button>
+    </li>
+    <li class="page-item">
+      <button class="page-link" (click)="onPage(+page + 2)">
+        {{ +page + 2 }}
+      </button>
+    </li>
+    <li class="page-item">
+      <button class="page-link" (click)="onPage(+page + 3)">
+        {{ +page + 3 }}
+      </button>
+    </li>
+    <li class="page-item">
+      <button class="page-link" (click)="onNext()">Next</button>
+    </li>
+  </ul>
+</nav>

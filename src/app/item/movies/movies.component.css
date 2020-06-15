@@ -1,0 +1,29 @@
+h1 {
+    color: white;
+    text-align: center;
+}
+
+.poster {
+    width: 300px;
+}
+
+.row {
+    margin: auto;
+    margin-top: 1%;
+    margin-left: 3%
+}
+
+.figure {
+    padding: 40px;
+}
+
+.figure:hover {
+    border: 1px solid;
+    border-color: white;
+}
+
+.figure-caption {
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+}

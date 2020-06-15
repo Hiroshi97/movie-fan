@@ -1,0 +1,37 @@
+.cart-checkout {
+    width: 100%;
+    min-height: 100vh - 90px;
+    text-align: center;
+    color: white;
+}
+
+.cart-checkout .table{
+    text-align: center;
+    margin: auto;
+    margin-top: 5%;
+}
+
+.cart-checkout .table td{
+    vertical-align: middle;
+}
+
+.cart-checkout .table .movie-name {
+    text-align: left;
+}
+
+.empty-cart {
+    margin-top: 30%;
+}
+
+.total-row {
+    font-size: 20px;
+    font-weight: bolder;
+}
+
+.checkout-button, .clear-button {
+    margin-top: 5%;
+}
+
+.clear-button {
+    float: right;
+}

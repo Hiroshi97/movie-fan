@@ -1,0 +1,51 @@
+<div class="cart-checkout">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+        <div class="table-checkout" *ngIf="cartList.length !== 0">
+          <h1>SHOPPING CART</h1>
+          <table class="table table-striped table-dark">
+            <tr class="table-active">
+              <th scope="col">Movie</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Price</th>
+              <th scope="col">Total</th>
+            </tr>
+            <tr scope="row" *ngFor="let item of cartList">
+              <td class="movie-name">
+                <img [src]="getPoster(item.product.poster)" width="80px" />
+                {{ item.product.name }}
+              </td>
+              <td><input (change)="changeQuantity($event.target.id, $event.target.value)" class="form-control" type="number" [id]="item.product.id" name="quantity" min="1" max="10" [value]="item.quantity" min="1"></td>
+              <td>{{ item.price | currency: "AUD" }}</td>
+              <td>{{ item.price * item.quantity | currency: "AUD" }}</td>
+            </tr>
+            <tr scope="row" class="total-row">
+              <td></td>
+              <td></td>
+              <th>Total:</th>
+              <td>{{ getTotalPrice() | currency: "AUD" }}</td>
+            </tr>
+          </table>
+          <div class="container">
+            <button class="checkout-button btn btn-danger btn-lg">
+              CHECKOUT
+            </button>
+            <button (click)="onClear()" class="clear-button btn btn-secondary btn-lg">
+                CLEAR
+            </button>
+          </div>
+        </div>
+        <div
+          class="empty-cart alert alert-danger"
+          role="alert"
+          *ngIf="cartList.length === 0"
+        >
+          <i class="fa fa-exclamation"></i> Your cart is empty! Please visit
+          this <a routerLink="/movies/1" class="alert-link">page</a> to purchase
+          your favorite movies.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

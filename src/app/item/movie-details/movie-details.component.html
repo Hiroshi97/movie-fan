@@ -1,0 +1,33 @@
+<div *ngIf="movie">
+  <div class="container">
+    <div class="row mt-5">
+      <div class="col-lg-6 col-md-12 col-sm-12 col-12 movie-poster">
+        <img [src]="imgURL + movie.poster" width="500px" />
+      </div>
+      <div class="col-lg-5 col-md-12 col-sm-12 col-12 movie-description">
+        <h1>{{ movie.name }}</h1>
+        <h5>Length: {{movie.runtime}} minutes</h5>
+        <p>{{ movie.overview }}</p>
+        <div *ngFor="let g of movie.genres" class="d-inline movie-genres">
+          <span class="badge badge-secondary">{{ g.name }}</span>
+        </div>
+        <br>
+        <h5 class="d-inline">Rate: {{ movie.rate }} / 10 - </h5>
+        <ng-template #t let-fill="fill">
+          <span class="star" [class.full]="fill === 100">
+            <span class="half" [style.width.%]="fill">&#9733;</span>&#9733;
+          </span>
+        </ng-template>
+        <ngb-rating
+          [rate]="getStarRating(movie.rate)"
+          [starTemplate]="t"
+          [readonly]="true"
+          [max]="5"
+        ></ngb-rating>
+        <h5>Release Date: {{ movie.date }}</h5>
+        <br>
+        <button class="add-movie btn btn-danger btn-lg" (click)="addItemCart(movie, 1)">ADD TO CART</button>
+      </div>
+    </div>
+  </div>
+</div>

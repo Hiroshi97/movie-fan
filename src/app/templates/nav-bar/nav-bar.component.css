@@ -1,0 +1,29 @@
+nav {
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
+}
+
+a {
+  color: white;
+  font-weight: bold;
+}
+
+.badge {
+    padding-left: 9px;
+    padding-right: 9px;
+    -webkit-border-radius: 9px;
+    -moz-border-radius: 9px;
+    border-radius: 9px;
+  }
+  
+.label-warning[href],
+.badge-warning[href] {
+    background-color: #c67605;
+  }
+#lblCartCount {
+      font-size: 12px;
+      background: #0059ff;
+      color: #fff;
+      padding: 0 5px;
+      vertical-align: top;
+      margin-left: -10px; 
+}
