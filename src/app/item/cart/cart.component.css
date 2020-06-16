@@ -1,6 +1,11 @@
+
+.table-checkout {
+    padding-top: 15%;
+}
+
 .cart-checkout {
     width: 100%;
-    min-height: 100vh - 90px;
+    min-height: calc(100vh - 90px);
     text-align: center;
     color: white;
 }
@@ -20,7 +25,16 @@
 }
 
 .empty-cart {
-    margin-top: 30%;
+    margin-top: 20%;
+}
+
+.empty-cart img{
+    max-width: 100%;
+}
+
+.empty-cart-warning {
+    margin: auto;
+    float: left;
 }
 
 .total-row {
