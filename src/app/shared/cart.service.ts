@@ -66,7 +66,7 @@ export class CartService {
     }
   }
 
-  deleteItem(id: number) {
+  removeItem(id: number) {
     const index = this.checkItem(id);
     if(index !== -1) {
       this.cartList = this.cartList.filter(item => item.product.id !== id);
