@@ -49,3 +49,10 @@
 .clear-button {
     float: right;
 }
+
+rect.btn {
+    stroke:#fff;
+    fill:#fff;
+    fill-opacity:0;
+    stroke-opacity:0;
+  }

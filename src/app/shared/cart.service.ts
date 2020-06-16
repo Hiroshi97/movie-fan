@@ -59,11 +59,19 @@ export class CartService {
   updateCartQty(id: number, quantity:number): void {
     //Check if the item existed.
     const index = this.checkItem(id);
-    
-    if(index !== -1 && quantity) {
+    if(index !== -1 && quantity > 0) {
       this.cartList[index].quantity = quantity;
       sessionStorage.setItem('cart', JSON.stringify(this.cartList));
       this.cartListChanged.next(this.cartList)
+    }
+  }
+
+  deleteItem(id: number) {
+    const index = this.checkItem(id);
+    if(index !== -1) {
+      this.cartList = this.cartList.filter(item => item.product.id !== id);
+      sessionStorage.setItem('cart', JSON.stringify(this.cartList));
+      this.cartListChanged.next(this.cartList);
     }
   }
 
