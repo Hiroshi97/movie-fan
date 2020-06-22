@@ -13,12 +13,14 @@ import { Router } from '@angular/router';
 export class NavBarComponent implements OnInit {
   page: number;
   numberOfItemCart: number;
-  isLogin: boolean = false;
+  isLogin: boolean;
 
   constructor(private cartService: CartService, private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
     this.page = 1;
+
+    this.isLogin = this.authService.isCurrentUserExisted(); 
 
     this.authService.user.subscribe(user => this.isLogin = user ? true : false)
 
@@ -31,8 +33,8 @@ export class NavBarComponent implements OnInit {
 
   onLogout() {
     this.authService.logoutUser();
-    sessionStorage.clear();
     this.cartService.clearCart();
+    sessionStorage.clear();
     this.router.navigate(['/']);
   }
 }

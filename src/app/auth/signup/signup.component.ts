@@ -22,10 +22,8 @@ export class SignupComponent implements OnInit {
     }
     else if (form.value.password !== form.value.confirmPassword){
       this.errorMsg = "Wrong confirm password";
-      console.log(form.value.checkbox);
     }
     else {
-      console.log(form.value.checkbox);
       this.authService.createNewUser(form.value.email, form.value.password).subscribe(
       res => {
         sessionStorage.setItem('key', JSON.stringify(res.localId));

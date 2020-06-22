@@ -2,6 +2,10 @@ import { Injectable } from '@angular/core';
 import { ItemCart } from '../model/item-cart';
 import { MovieInfo } from '../model/movie-info';
 import { Observable, Subject, from } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { AuthService } from './auth.service';
+import { ifError } from 'assert';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -10,8 +14,9 @@ export class CartService {
 
   cartList: ItemCart[] = sessionStorage.getItem('cart') === null ? [] : JSON.parse(sessionStorage.getItem('cart'));
   cartListChanged = new Subject();
-
-  constructor() {}
+  private projectURL = "https://moviefan-b1801.firebaseio.com/users/";
+  
+  constructor(private http:HttpClient, private authService: AuthService) {}
 
   addToCart(movie: MovieInfo, quantity: number, price: number): void {
     
@@ -20,6 +25,7 @@ export class CartService {
     if (checked !== -1) {
       //Increase qty of the existing item
       this.cartList[checked].quantity += quantity;
+      this.updateCartJSON();
     }
     else {
       //Add a new item to cart
@@ -28,6 +34,10 @@ export class CartService {
         quantity: quantity,
         price: price
       });
+      if (this.authService.isCurrentUserExisted()) {
+        this.updateCartJSON();
+      }
+     
     }
     sessionStorage.setItem('cart', JSON.stringify(this.cartList));
     this.cartListChanged.next(this.cartList);
@@ -45,15 +55,30 @@ export class CartService {
   }
 
   getCartList(): ItemCart[] {
-    return this.cartList;
+    return this.getCartJSON();
   }
 
   getCartListChanged(): Observable<any>{
     return this.cartListChanged;
   }
 
-  updateCart(id: number, quantity?:number, price?:number): void {
+  getCartJSON(): ItemCart[] {
+    if (this.authService.isCurrentUserExisted()) {
+      const link = this.projectURL + sessionStorage.getItem('key').replace(/"/gi, '') + ".json";
+      this.http.get(link).toPromise().then((res) => {
+        this.cartList = res['cart'];
+        this.cartListChanged.next(this.cartList);
+      });
+      return this.cartList;
+    }
+    else return [];
+  }
 
+  updateCartJSON(): void {
+    if (this.authService.isCurrentUserExisted()) {
+      const link = this.projectURL + sessionStorage.getItem('key').replace(/"/gi, '') + ".json";
+      this.http.patch(link, JSON.stringify({cart: this.cartList})).toPromise();
+    }
   }
 
   updateCartQty(id: number, quantity:number): void {
@@ -61,6 +86,7 @@ export class CartService {
     const index = this.checkItem(id);
     if(index !== -1 && quantity > 0) {
       this.cartList[index].quantity = quantity;
+      this.updateCartJSON();
       sessionStorage.setItem('cart', JSON.stringify(this.cartList));
       this.cartListChanged.next(this.cartList)
     }
@@ -70,14 +96,16 @@ export class CartService {
     const index = this.checkItem(id);
     if(index !== -1) {
       this.cartList = this.cartList.filter(item => item.product.id !== id);
+      this.updateCartJSON();
       sessionStorage.setItem('cart', JSON.stringify(this.cartList));
       this.cartListChanged.next(this.cartList);
     }
   }
 
-  clearCart(): void {
+  clearCart(onPurpose : boolean = false): void {
     this.cartList = [];
-    sessionStorage.clear();
+    if (onPurpose) this.updateCartJSON();
+    sessionStorage.setItem('cart', JSON.stringify(this.cartList));
     this.cartListChanged.next(this.cartList);
   }
   
