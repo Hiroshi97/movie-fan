@@ -14,6 +14,7 @@ import { HomeComponent } from './home/home.component';
 import { CartComponent } from './item/cart/cart.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
+import { DashboardComponent } from './auth/dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { FormsModule } from '@angular/forms';
     HeaderComponent,
     FooterComponent,
     HomeComponent,
-    CartComponent
+    CartComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,

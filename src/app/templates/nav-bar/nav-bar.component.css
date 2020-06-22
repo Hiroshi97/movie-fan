@@ -27,3 +27,8 @@ a {
       vertical-align: top;
       margin-left: -10px; 
 }
+
+.dropdown-menu {
+  background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1));
+  color: white;
+}

@@ -2,6 +2,8 @@ import { Component, OnInit, OnChanges } from '@angular/core';
 import { CartService } from '../../shared/cart.service';
 import { tap } from 'rxjs/operators';
 import { ItemCart } from '../../model/item-cart';
+import { AuthService } from '../../shared/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-nav-bar',
@@ -11,16 +13,26 @@ import { ItemCart } from '../../model/item-cart';
 export class NavBarComponent implements OnInit {
   page: number;
   numberOfItemCart: number;
+  isLogin: boolean = false;
 
-  constructor(private cartService: CartService) {}
+  constructor(private cartService: CartService, private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
     this.page = 1;
+
+    this.authService.user.subscribe(user => this.isLogin = user ? true : false)
 
     this.numberOfItemCart = this.cartService.getCartList().length;
 
     this.cartService.getCartListChanged().subscribe((cart: ItemCart[]) => {
       if (cart) { this.numberOfItemCart = cart.length; }});
     
+  }
+
+  onLogout() {
+    this.authService.logoutUser();
+    sessionStorage.clear();
+    this.cartService.clearCart();
+    this.router.navigate(['/']);
   }
 }

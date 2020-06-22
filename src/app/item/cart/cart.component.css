@@ -56,3 +56,9 @@ rect.btn {
     fill-opacity:0;
     stroke-opacity:0;
   }
+
+.back-button {
+    float: left;
+    padding-right: 5%;
+    margin-bottom: 10px;
+}

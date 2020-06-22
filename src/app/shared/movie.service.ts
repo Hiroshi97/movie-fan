@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, filter, tap } from 'rxjs/operators';
 import { Movie } from '../model/movie';
 import { MovieInfo } from '../model/movie-info';
 
@@ -31,8 +31,28 @@ export class MovieService {
     );
   }
 
+  getNewMovies(): Observable<Movie[]> {
+    const urlList = 'https://api.themoviedb.org/3/discover/movie' + this._apiKey + '&sort_by=release_date.desc&include_adult=false&include_video=false&year=2020';
+    return this.http.get(urlList).pipe(
+      map((res) => res['results']),
+      map((res) => {
+        return res.map((data) => {
+          return {
+            id: data['id'],
+            name: data['title'],
+            poster: data['poster_path'],
+            rate: data['vote_average'],
+            date: data['release_date'],
+          };
+        });
+      }),
+      map((res) => {
+        return res.filter((data) => data['poster'] !== null)
+      })
+      )
+    }
+
   getMovieDetails(id: number): Observable<MovieInfo> {
-    
     const url = 'https://api.themoviedb.org/3/movie/' + id.toString() + this._apiKey;
     return this.http.get(url).pipe(
       map(res => {

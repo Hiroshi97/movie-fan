@@ -1,1 +1,31 @@
-<p>login works!</p>
+<div class="login">
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-lg-12 col-md-12 col-sm-12">
+    <h1 class="text-center">LOG IN</h1>
+    <p class="text-center"></p>
+    <form class="mt-4 login-form" #loginForm="ngForm" (ngSubmit)="onLogin(loginForm)">
+        <div class="form-group">
+            <div class="alert alert-danger" *ngIf="errorMsg || errorMsg!==''" role="alert">
+                {{errorMsg}}
+            </div>
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" ngModel name="email" required>
+
+            <label for="password" class="mt-3">Password</label>            
+            <input type="password" class="form-control" id="password" ngModel name="password" required>
+        </div>
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="checkbox">
+            <label class="form-check-label" for="checkbox">Remember me</label>
+        </div>
+        <a routerLink="#"><p class="form-check-label text-right mb-3">Forget your password?</p></a>
+
+        <button class="form-control btn btn-primary">SIGN IN</button>
+    </form>
+    <br>
+    <p class="text-center">Have not an account yet? <a routerLink="/signup">Sign up </a></p>
+</div>
+</div>
+</div>
+</div>

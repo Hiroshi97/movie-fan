@@ -3,7 +3,7 @@
   <div class="col-lg-3 col-md-4 col-sm-6 col-12" *ngFor="let movie of movies">
     <a routerLink="../movie/{{ movie.id }}">
       <figure class="figure text-center">
-        <img [src]="this.imgURL + movie.poster" class="poster" />
+        <img [src]="imgURL + movie.poster" class="poster" />
         <figcaption class="figure-caption">{{ movie.name }}</figcaption>
         <figcaption class="figure-caption">
           {{ getYear(movie.date) }}
