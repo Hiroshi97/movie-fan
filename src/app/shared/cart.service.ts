@@ -66,12 +66,14 @@ export class CartService {
     if (this.authService.isCurrentUserExisted()) {
       const link = this.projectURL + sessionStorage.getItem('key').replace(/"/gi, '') + ".json";
       this.http.get(link).toPromise().then((res) => {
-        this.cartList = res['cart'];
-        this.cartListChanged.next(this.cartList);
+        if(res) {
+          this.cartList = res['cart'];
+          sessionStorage.setItem('cart', JSON.stringify(this.cartList));
+          this.cartListChanged.next(this.cartList);
+        }
       });
-      return this.cartList;
     }
-    else return [];
+    return this.cartList;
   }
 
   updateCartJSON(): void {
