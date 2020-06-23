@@ -26,6 +26,7 @@ export class LoginComponent implements OnInit {
       this.authService.loginUser(form.value.email, form.value.password).subscribe(
         res => {
           sessionStorage.setItem('key', JSON.stringify(res.localId));
+          this.cartService.fetchCartList();
           this.router.navigate(['/movies/1']);
         },
         error => {

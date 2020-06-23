@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject, ReplaySubject } from 'rxjs';
+import { Subject, ReplaySubject, of, Observable } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
 import { User } from '../model/user';
@@ -14,8 +14,9 @@ export class AuthService {
   private apiKey = "AIzaSyAO5u_zbJFpkgAVwWhg8iWy6MKP_L0KcbM";
   private signupURL = "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=";
   private loginURL = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=";
-
+  
   user = new ReplaySubject<User>();
+  loggedIn = false;
 
   constructor(private http: HttpClient) { }
 
@@ -59,8 +60,7 @@ export class AuthService {
     this.user.next(null);
   }
 
-  isCurrentUserExisted() : boolean {
-    return sessionStorage.getItem('key') ? true : false;
+  checkCurrentUser() : boolean {
+    return sessionStorage.getItem('key') && this.user ? true : false;
   }
-
 }
