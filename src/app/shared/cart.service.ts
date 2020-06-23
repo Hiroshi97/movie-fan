@@ -66,7 +66,7 @@ export class CartService {
   getCartJSON(): ItemCart[] {
     this.cartList = sessionStorage.getItem('cart') === null ? [] : JSON.parse(sessionStorage.getItem('cart'));
     this.cartListChanged.next(this.cartList);
-    
+
     //if user logged in
     if (this.authService.checkCurrentUser() ) {
       if (this.cartList.length > 0) {
@@ -90,6 +90,7 @@ export class CartService {
   }
 
   updateCartJSON(): void {
+    //if user logged in
     if (this.authService.checkCurrentUser()) {
       const link = this.projectURL + sessionStorage.getItem('key').replace(/"/gi, '') + ".json";
       this.http.patch(link, JSON.stringify({cart: this.cartList})).toPromise();
