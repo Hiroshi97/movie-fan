@@ -1,0 +1,8 @@
+.container {
+    min-height: calc(90vh - 40px);
+}
+
+.user-info {
+    padding-top: 30%;
+}
+

@@ -68,3 +68,13 @@
 .figure-caption {
   color: white;
 }
+
+a {
+  color: white;
+}
+
+a:hover {
+  opacity: 0.9;
+}
+
+

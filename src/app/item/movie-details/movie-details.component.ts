@@ -34,7 +34,8 @@ export class MovieDetailsComponent implements OnInit {
   }
 
   addItemCart(movie: MovieInfo, quantity: number): void {
-    let price = +movie.date.slice(6,4) > 2019 ? 10.99 : 5.99;
+    let price = +movie.date.slice(6) > 2019 ? 10.99 : 5.99;
+    console.log(movie.date.slice(6));
     this.cartService.addToCart(movie, quantity, price);
   }
 

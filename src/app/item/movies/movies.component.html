@@ -1,6 +1,21 @@
-<h1>List of movies</h1>
-<div class="row mt-5">
-  <div class="col-lg-3 col-md-4 col-sm-6 col-12" *ngFor="let movie of movies">
+<div class="container-fluid">
+<div class="row mt-5 justify-content-center"><h1>List of movies</h1></div>
+<div class="row mt-5 justify-content-center">
+  <div class="col-12 col-md-4">
+    <div class="input-wrapper">
+    <input
+        class="form-control mr-sm-2"
+        type="search"
+        placeholder="Search movie..."
+        aria-label="Search"
+        [(ngModel)]="term"
+      />
+      <!-- <i class="fa fa-search icon search-span"></i> -->
+    </div>
+    </div>
+  </div>
+<div class="row">
+  <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngFor="let movie of movies | filter:term">
     <a routerLink="../movie/{{ movie.id }}">
       <figure class="figure text-center">
         <img [src]="imgURL + movie.poster" class="poster" />
@@ -44,3 +59,4 @@
     </li>
   </ul>
 </nav>
+</div>

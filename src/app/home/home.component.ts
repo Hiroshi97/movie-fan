@@ -18,6 +18,9 @@ export class HomeComponent implements OnInit {
     this.movieService.getNewMovies().subscribe((res)=> {
       this.newArrivals = res.splice(0,6)
     });
+    this.movieService.getPopularMovies().subscribe((res)=> {
+      this.mostPopular = res.splice(0,6);
+    })
   }
 
 }

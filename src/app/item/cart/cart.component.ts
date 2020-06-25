@@ -10,6 +10,7 @@ import { ItemCart } from '../../model/item-cart';
 export class CartComponent implements OnInit {
 
   cartList: ItemCart[] = [];
+  
   imgURL = 'https://image.tmdb.org/t/p/original/';
 
   constructor(private cartService: CartService) { }
@@ -21,15 +22,15 @@ export class CartComponent implements OnInit {
   }
 
   getTotalPrice(): number {
-    if (this.cartList)
-      return this.cartList.reduce((sum, item) => sum + (item.quantity * item.price), 0)
-    return 0;
+    let totalPrice: number;
+    this.cartService.getTotalPrice().subscribe(total =>  totalPrice = total);
+    return totalPrice;
   }
 
   getTotalQuantity(): number {
-    if (this.cartList)
-      return this.cartList.reduce((sum, item) => sum + item.quantity, 0)
-    return 0;
+    let totalQty: number;
+    this.cartService.getTotalQty().subscribe(qty =>  totalQty = qty);
+    return totalQty;
   }
 
   getPoster(path: string): string {

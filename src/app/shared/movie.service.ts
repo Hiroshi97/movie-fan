@@ -32,7 +32,7 @@ export class MovieService {
   }
 
   getNewMovies(): Observable<Movie[]> {
-    const urlList = 'https://api.themoviedb.org/3/discover/movie' + this._apiKey + '&sort_by=release_date.desc&include_adult=false&include_video=false&year=2020';
+    const urlList = 'https://api.themoviedb.org/3/discover/movie' + this._apiKey + 'primary_release_year=2020&sort_by=vote_average.desc';
     return this.http.get(urlList).pipe(
       map((res) => res['results']),
       map((res) => {
@@ -68,4 +68,25 @@ export class MovieService {
       };
     }));
   }
+
+  getPopularMovies(): Observable<Movie[]> {
+    const urlList = 'https://api.themoviedb.org/3/discover/movie' + this._apiKey + 'sort_by=popularity.desc';
+    return this.http.get(urlList).pipe(
+      map((res) => res['results']),
+      map((res) => {
+        return res.map((data) => {
+          return {
+            id: data['id'],
+            name: data['title'],
+            poster: data['poster_path'],
+            rate: data['vote_average'],
+            date: data['release_date'],
+          };
+        });
+      }),
+      map((res) => {
+        return res.filter((data) => data['poster'] !== null)
+      })
+      )
+    }
 }

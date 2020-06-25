@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ItemCart } from '../model/item-cart';
 import { MovieInfo } from '../model/movie-info';
-import { Observable, Subject, from, ReplaySubject } from 'rxjs';
+import { Observable, Subject, from, ReplaySubject, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from './auth.service';
 import { ifError } from 'assert';
@@ -19,8 +19,6 @@ export class CartService {
   constructor(private http:HttpClient, private authService: AuthService) {}
 
   addToCart(movie: MovieInfo, quantity: number, price: number): void {
-    
-    
     const checked = this.checkItem(movie.id)
     if (checked !== -1) {
       //Increase qty of the existing item
@@ -81,12 +79,9 @@ export class CartService {
           }
           this.cartListChanged.next(this.cartList);
         })
+      } 
     }
-    
-  }
-  
-
-  return this.cartList;
+    return this.cartList;
   }
 
   updateCartJSON(): void {
@@ -124,5 +119,16 @@ export class CartService {
     sessionStorage.setItem('cart', JSON.stringify(this.cartList));
     this.cartListChanged.next(this.cartList);
   }
-  
+
+  getTotalPrice(): Observable<number> {
+    if (this.cartList)
+      return of(this.cartList.reduce((sum, item) => sum + (item.quantity * item.price), 0));
+    else return of(0);
+  }
+
+  getTotalQty(): Observable<number> {
+    if (this.cartList)
+      return of(this.cartList.reduce((sum, item) => sum + item.quantity, 0));
+    else return of(0);
+  }
 }

@@ -55,7 +55,7 @@
     </div>
   </section>
   <section class="mw-100 new-movies pt-5">
-    <h3>NEW ARRIVALS >></h3>
+    <h3><a routerLink="#">NEW ARRIVALS >></a></h3>
     <div class="row">
       <div
         class="col-lg-2 col-md-4 col-sm-4 col-4"
@@ -71,11 +71,11 @@
     </div>
   </section>
   <section class="mw-100 new-movies pt-5">
-    <h3>MOST POPULAR >></h3>
+    <h3><a routerLink="/movies/1">MOST POPULAR >></a></h3>
     <div class="row ">
       <div
         class="col-lg-2 col-md-4 col-sm-4 col-4"
-        *ngFor="let movie of newArrivals"
+        *ngFor="let movie of mostPopular"
       >
         <a routerLink="/movies/movie/{{ movie.id }}">
           <figure class="figure text-center">
