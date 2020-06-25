@@ -12,6 +12,7 @@ export class MoviesComponent implements OnInit {
   movies: Movie[] = [];
   imgURL = 'https://image.tmdb.org/t/p/w500/';
   page: number;
+  term: string;
 
   constructor(
     private movieService: MovieService,

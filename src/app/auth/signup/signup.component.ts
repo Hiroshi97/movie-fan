@@ -18,10 +18,10 @@ export class SignupComponent implements OnInit {
 
   onSignup(form: NgForm) {
     if (form.invalid) {
-      this.errorMsg = "Error";
+      this.errorMsg = "Please fill in all required field";
     }
     else if (form.value.password !== form.value.confirmPassword){
-      this.errorMsg = "Wrong confirm password";
+      this.errorMsg = "Confirm password does not match";
     }
     else {
       this.authService.createNewUser(form.value.email, form.value.password).subscribe(
@@ -31,7 +31,6 @@ export class SignupComponent implements OnInit {
       },
       error => {
         this.errorMsg = error.error.error.message;
-        console.log(error);
       });
     }
   }

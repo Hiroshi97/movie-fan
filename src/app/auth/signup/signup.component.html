@@ -1,7 +1,7 @@
 <div class="signup">
   <div class="container">
-    <div class="row">
-      <div class="col-12 col-lg-12 col-md-12 col-sm-12">
+    <div class="row justify-content-center">
+      <div class="col-8 col-lg-6 col-md-8 col-sm-8">
         <h1 class="text-center">SIGN UP</h1>
         <p class="text-center"></p>
         <form
@@ -15,7 +15,7 @@
               *ngIf="errorMsg || errorMsg !== ''"
               role="alert"
             >
-              {{ errorMsg }}
+            <i class="fa fa-times" aria-hidden="true"></i> {{ errorMsg }}
             </div>
             <label for="email">Email</label>
             <input
