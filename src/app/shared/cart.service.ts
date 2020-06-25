@@ -67,6 +67,30 @@ export class CartService {
 
     //if user logged in
     if (this.authService.checkCurrentUser() ) {
+      // const link = this.projectURL + sessionStorage.getItem('key').replace(/"/gi, '') + ".json";
+      // this.http.get<ItemCart[]>(link).toPromise().then((res) => {
+      //   if(res) {
+      //     if(this.cartList.length === 0) {
+      //       this.cartList = res['cart'];
+      //       sessionStorage.setItem('cart', JSON.stringify(this.cartList));
+      //       this.updateCartJSON();
+      //     }
+      //     else {
+      //       if (JSON.stringify(this.cartList) !== JSON.stringify(res['cart'])) {
+
+      //       const tempCart = res['cart'];
+      //       tempCart.forEach((item)=> {
+      //         const index = this.checkItem(item.product.id);
+      //         if (index !== -1) {
+      //           this.cartList[index].quantity += item.quantity;
+      //         }
+      //         else this.cartList.push(item);
+      //       })
+      //       this.updateCartJSON(null);
+      //     }
+      //     this.cartListChanged.next(this.cartList);
+      //   }
+      // })
       if (this.cartList.length > 0) {
         this.updateCartJSON();
       }
@@ -84,11 +108,11 @@ export class CartService {
     return this.cartList;
   }
 
-  updateCartJSON(): void {
+  updateCartJSON(cartList: ItemCart[] = this.cartList): void {
     //if user logged in
     if (this.authService.checkCurrentUser()) {
       const link = this.projectURL + sessionStorage.getItem('key').replace(/"/gi, '') + ".json";
-      this.http.patch(link, JSON.stringify({cart: this.cartList})).toPromise();
+      this.http.patch(link, JSON.stringify({cart: cartList})).toPromise();
     }
   }
 
