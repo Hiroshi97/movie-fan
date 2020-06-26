@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 })
 export class NavBarComponent implements OnInit {
   page: number;
-  numberOfItemCart: number;
+  numberOfItemCart: number = 0;
   isLogin: boolean = sessionStorage.getItem('key') ? true : false;
 
   constructor(private cartService: CartService, private authService: AuthService, private router: Router) {}
@@ -23,7 +23,8 @@ export class NavBarComponent implements OnInit {
     this.authService.user.subscribe(user => {this.isLogin = user ? true : false;});
 
     this.cartService.getCartListChanged().subscribe((cart: ItemCart[]) => {
-      if (cart) { this.numberOfItemCart = cart.length;}});
+      this.numberOfItemCart = cart.length;
+    });
     
   }
 

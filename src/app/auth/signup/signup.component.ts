@@ -19,9 +19,7 @@ export class SignupComponent implements OnInit {
   constructor(private authService: AuthService, private cartService: CartService, private router: Router) { }
   
   ngOnInit(): void {
-    this.authService.getCountryList().subscribe(countries => this.countries = countries);
-    this.phoneCode = this.countries[0].dial_code;
-    this.selectedCountry = this.countries[0].name;
+    this.authService.getCountryList().subscribe(countries => {this.countries = countries; this.selectedCountry = this.countries[0].name; this.phoneCode = this.countries[0].dial_code;});
   }
 
   getCountry(name: string): void {

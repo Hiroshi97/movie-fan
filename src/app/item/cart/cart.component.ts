@@ -16,7 +16,7 @@ export class CartComponent implements OnInit {
   constructor(private cartService: CartService) { }
 
   ngOnInit(): void {
-    this.cartService.getCartListChanged().subscribe( cart => {
+    this.cartService.cartListChanged.subscribe( cart => {
       this.cartList = cart;
     })
   }
@@ -46,7 +46,6 @@ export class CartComponent implements OnInit {
   }
 
   onClear(): void {
-    this.cartList = [];
     this.cartService.clearCart(true);
   }
 

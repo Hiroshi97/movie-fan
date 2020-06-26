@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ReplaySubject, of, Observable } from 'rxjs';
+import { ReplaySubject, of, Observable, Subject } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
 import { User } from '../model/user';
@@ -17,8 +17,8 @@ export class AuthService {
   private loginURL = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=";
   
 
-  user = new ReplaySubject<User>();
-  userInfo = new ReplaySubject<UserInfo>();
+  user = new Subject<User>();
+  userInfo = new Subject<UserInfo>();
 
   constructor(private http: HttpClient) { }
 

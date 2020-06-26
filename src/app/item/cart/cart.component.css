@@ -46,6 +46,10 @@
     margin-top: 5%;
 }
 
+.checkout-button {
+    margin-left: 8%;
+}
+
 .clear-button {
     float: right;
 }

@@ -52,16 +52,12 @@ export class CartService {
     return result;
   }
 
-  fetchCartList(): ItemCart[] {
-    return this.getCartJSON();
-  }
-
   getCartListChanged(): Observable<any>{
-    this.cartList = this.fetchCartList();
+    this.fetchCartList();
     return this.cartListChanged;
   }
 
-  getCartJSON(): ItemCart[] {
+  fetchCartList(): void {
     this.cartList = sessionStorage.getItem('cart') === null ? [] : JSON.parse(sessionStorage.getItem('cart'));
     this.cartListChanged.next(this.cartList);
 
@@ -95,25 +91,26 @@ export class CartService {
         this.updateCartJSON();
       }
       else {
-      const link = this.projectURL + sessionStorage.getItem('key').replace(/"/gi, '') + ".json";
-      this.http.get<ItemCart[]>(link).toPromise().then((res) => {
+        const link = this.projectURL + sessionStorage.getItem('key').replace(/"/gi, '') + ".json";
+        this.http.get<ItemCart[]>(link).toPromise().then((res) => {
         if(res) {
             this.cartList = res['cart'];
-            sessionStorage.setItem('cart', JSON.stringify(this.cartList));
+            this.updateCartSessionStorage();
           }
-          this.cartListChanged.next(this.cartList);
         })
+        this.cartListChanged.next(this.cartList);
       } 
     }
-    return this.cartList;
+  }
+
+  updateCartSessionStorage(): void {
+    sessionStorage.setItem('cart', JSON.stringify(this.cartList));
+    this.cartListChanged.next(this.cartList)
   }
 
   updateCartJSON(cartList: ItemCart[] = this.cartList): void {
-    //if user logged in
-    if (this.authService.checkCurrentUser()) {
       const link = this.projectURL + sessionStorage.getItem('key').replace(/"/gi, '') + ".json";
       this.http.patch(link, JSON.stringify({cart: cartList})).toPromise();
-    }
   }
 
   updateCartQty(id: number, quantity:number): void {
@@ -121,9 +118,9 @@ export class CartService {
     const index = this.checkItem(id);
     if(index !== -1 && quantity > 0) {
       this.cartList[index].quantity = quantity;
-      this.updateCartJSON();
-      sessionStorage.setItem('cart', JSON.stringify(this.cartList));
-      this.cartListChanged.next(this.cartList)
+      this.updateCartSessionStorage();
+      if (this.authService.checkCurrentUser())  //if user logged in
+        this.updateCartJSON();
     }
   }
 
@@ -131,17 +128,17 @@ export class CartService {
     const index = this.checkItem(id);
     if(index !== -1) {
       this.cartList = this.cartList.filter(item => item.product.id !== id);
-      this.updateCartJSON();
-      sessionStorage.setItem('cart', JSON.stringify(this.cartList));
-      this.cartListChanged.next(this.cartList);
+      this.updateCartSessionStorage();
+      if (this.authService.checkCurrentUser())  //if user logged in
+        this.updateCartJSON();
+      
     }
   }
 
   clearCart(onPurpose : boolean = false): void {
     this.cartList = [];
-    if (onPurpose) this.updateCartJSON(); //false - log out && true - clear button
-    sessionStorage.setItem('cart', JSON.stringify(this.cartList));
-    this.cartListChanged.next(this.cartList);
+    if (onPurpose && this.authService.checkCurrentUser()) this.updateCartJSON(); //false - log out && true - clear button
+    this.updateCartSessionStorage();
   }
 
   getTotalPrice(): Observable<number> {
