@@ -3,7 +3,7 @@
 }
 
 .container {
-  min-height: calc(90vh - 40px);
+  min-height: calc(90vh - 50px);
 }
 
 .movie-poster img {
@@ -12,6 +12,12 @@
 
 .back-button {
   margin: auto;
+}
+
+@media screen and (max-width: 400px) {
+  .back-button {
+    margin-bottom: 50px;
+  }
 }
 
 .movie-description {
