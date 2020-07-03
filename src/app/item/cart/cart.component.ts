@@ -27,18 +27,12 @@ export class CartComponent implements OnInit {
     return totalPrice;
   }
 
-  getTotalQuantity(): number {
-    let totalQty: number;
-    this.cartService.getTotalQty().subscribe(qty =>  totalQty = qty);
-    return totalQty;
-  }
-
   getPoster(path: string): string {
     return this.imgURL + path;
   }
 
   changeQuantity(id: number, quantity: number) : void{
-    this.cartService.updateCartQty(+id, +quantity);
+    this.cartService.updateItemQty(+id, +quantity);
   }
 
   removeItem(id: number): void {

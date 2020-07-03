@@ -23,7 +23,6 @@ export class CartService {
     if (checked !== -1) {
       //Increase qty of the existing item
       this.cartList[checked].quantity += quantity;
-      this.updateCartJSON();
     }
     else {
       //Add a new item to cart
@@ -32,13 +31,11 @@ export class CartService {
         quantity: quantity,
         price: price
       });
-      if (this.authService.checkCurrentUser()) {
-        this.updateCartJSON();
-      }
-     
     }
-    sessionStorage.setItem('cart', JSON.stringify(this.cartList));
-    this.cartListChanged.next(this.cartList);
+    this.updateCartSessionStorage();
+    if (this.authService.checkCurrentUser()) {
+      this.updateCartJSON();
+    }
   }
 
   checkItem(id: number): number {
@@ -113,7 +110,7 @@ export class CartService {
       this.http.patch(link, JSON.stringify({cart: cartList})).toPromise();
   }
 
-  updateCartQty(id: number, quantity:number): void {
+  updateItemQty(id: number, quantity:number): void {
     //Check if the item existed.
     const index = this.checkItem(id);
     if(index !== -1 && quantity > 0) {
@@ -144,12 +141,6 @@ export class CartService {
   getTotalPrice(): Observable<number> {
     if (this.cartList)
       return of(this.cartList.reduce((sum, item) => sum + (item.quantity * item.price), 0));
-    else return of(0);
-  }
-
-  getTotalQty(): Observable<number> {
-    if (this.cartList)
-      return of(this.cartList.reduce((sum, item) => sum + item.quantity, 0));
     else return of(0);
   }
 }

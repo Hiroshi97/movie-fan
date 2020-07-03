@@ -23,7 +23,7 @@ export class NavBarComponent implements OnInit {
     this.authService.user.subscribe(user => {this.isLogin = user ? true : false;});
 
     this.cartService.getCartListChanged().subscribe((cart: ItemCart[]) => {
-      this.numberOfItemCart = cart.length;
+      this.numberOfItemCart = cart.reduce((sum, item) => sum + item.quantity, 0);
     });
     
   }
