@@ -15,7 +15,8 @@ export class CartService {
   //cartList: ItemCart[] = sessionStorage.getItem('cart') === null ? [] : JSON.parse(sessionStorage.getItem('cart'));
   cartListChanged = new ReplaySubject<ItemCart[]>();
   private projectURL = "https://moviefan-b1801.firebaseio.com/users/";
-  
+  private fetchCartFromDB: boolean = false;
+
   constructor(private http:HttpClient, private authService: AuthService) {}
 
   addToCart(movie: MovieInfo, quantity: number, price: number): void {
@@ -59,18 +60,16 @@ export class CartService {
     this.cartListChanged.next(this.cartList);
 
     //if user logged in
-    if (this.authService.checkCurrentUser() ) {
+    if (this.authService.checkCurrentUser()) {
+      // this.fetchCartFromDB = true;
       // const link = this.projectURL + sessionStorage.getItem('key').replace(/"/gi, '') + ".json";
       // this.http.get<ItemCart[]>(link).toPromise().then((res) => {
       //   if(res) {
       //     if(this.cartList.length === 0) {
       //       this.cartList = res['cart'];
-      //       sessionStorage.setItem('cart', JSON.stringify(this.cartList));
-      //       this.updateCartJSON();
       //     }
       //     else {
       //       if (JSON.stringify(this.cartList) !== JSON.stringify(res['cart'])) {
-
       //       const tempCart = res['cart'];
       //       tempCart.forEach((item)=> {
       //         const index = this.checkItem(item.product.id);
@@ -79,11 +78,12 @@ export class CartService {
       //         }
       //         else this.cartList.push(item);
       //       })
-      //       this.updateCartJSON(null);
       //     }
-      //     this.cartListChanged.next(this.cartList);
+      //     this.updateCartSessionStorage();
+      //     this.updateCartJSON();
+      //     //this.cartListChanged.next(this.cartList);
       //   }
-      // })
+      // }})
       if (this.cartList.length > 0) {
         this.updateCartJSON();
       }
@@ -105,9 +105,9 @@ export class CartService {
     this.cartListChanged.next(this.cartList)
   }
 
-  updateCartJSON(cartList: ItemCart[] = this.cartList): void {
+  updateCartJSON(): void {
       const link = this.projectURL + sessionStorage.getItem('key').replace(/"/gi, '') + ".json";
-      this.http.patch(link, JSON.stringify({cart: cartList})).toPromise();
+      this.http.patch(link, JSON.stringify({cart: this.cartList})).toPromise();
   }
 
   updateItemQty(id: number, quantity:number): void {
